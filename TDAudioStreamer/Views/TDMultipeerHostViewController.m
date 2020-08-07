@@ -136,6 +136,7 @@
 	if (peers.count) {
 
 		NSURL *songURL = [[NSBundle mainBundle] URLForResource:@"falling" withExtension:@"mp3"];
+		// .wav results in kAudioFileStreamError_UnsupportedFileType :-(
 
 		// Note that this only streams to the FIRST connected peer!
 		self.outputStreamer = [[TDAudioOutputStreamer alloc] initWithOutputStream:[self.session outputStreamForPeer:peers[0]]];
