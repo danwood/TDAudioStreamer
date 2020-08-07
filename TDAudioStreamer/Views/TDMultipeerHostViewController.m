@@ -87,9 +87,46 @@
 
 - (IBAction)addSongs:(id)sender
 {
+#if TARGET_IPHONE_SIMULATOR
+	if (self.outputStreamer) return;
+
+	NSMutableDictionary *info = [NSMutableDictionary dictionary];
+	info[@"title"] = @"Lorenzo Wood";
+	info[@"artist"] = @"Focused on You";
+
+	NSURL *artworkURL = [[NSBundle mainBundle] URLForResource:@"lorenzo" withExtension:@"jpg"];
+	UIImage *image = [[UIImage alloc] initWithData:[NSData dataWithContentsOfURL:artworkURL]];
+
+	if (image)
+		info[@"artwork"] = image;
+
+	if (info[@"artwork"])
+		self.albumImage.image = info[@"artwork"];
+	else
+		self.albumImage.image = nil;
+
+	self.songTitle.text = info[@"title"];
+	self.songArtist.text = info[@"artist"];
+
+	[self.session sendData:[NSKeyedArchiver archivedDataWithRootObject:[info copy]]];
+
+	NSArray *peers = [self.session connectedPeers];
+
+	if (peers.count) {
+
+		NSURL *songURL = [[NSBundle mainBundle] URLForResource:@"falling" withExtension:@"mp3"];
+
+		self.outputStreamer = [[TDAudioOutputStreamer alloc] initWithOutputStream:[self.session outputStreamForPeer:peers[0]]];
+		[self.outputStreamer streamAudioFromURL:songURL];
+		[self.outputStreamer start];
+	}
+
+
+#else
     MPMediaPickerController *picker = [[MPMediaPickerController alloc] initWithMediaTypes:MPMediaTypeMusic];
     picker.delegate = self;
     [self presentViewController:picker animated:YES completion:nil];
+#endif
 }
 
 @end
