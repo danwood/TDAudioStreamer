@@ -76,7 +76,8 @@
     
     if (peers.count) {
         
-        self.outputStreamer = [[TDAudioOutputStreamer alloc] initWithOutputStream:[self.session outputStreamForPeer:peers[0]]];
+		// Note that this only streams to the FIRST connected peer!
+		self.outputStreamer = [[TDAudioOutputStreamer alloc] initWithOutputStream:[self.session outputStreamForPeer:peers[0]]];
         self.outputStreamer.localPlaybackDelegate = self;
         [self.outputStreamer streamAudioFromURL:[self.song valueForProperty:MPMediaItemPropertyAssetURL]];
         [self.outputStreamer start];
@@ -136,6 +137,7 @@
 
 		NSURL *songURL = [[NSBundle mainBundle] URLForResource:@"falling" withExtension:@"mp3"];
 
+		// Note that this only streams to the FIRST connected peer!
 		self.outputStreamer = [[TDAudioOutputStreamer alloc] initWithOutputStream:[self.session outputStreamForPeer:peers[0]]];
 		[self.outputStreamer streamAudioFromURL:songURL];
 		[self.outputStreamer start];
