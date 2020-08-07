@@ -37,11 +37,17 @@
 
 - (void)start
 {
-    if (![[NSThread currentThread] isEqual:[NSThread mainThread]]) {
-        return [self performSelectorOnMainThread:@selector(start) withObject:nil waitUntilDone:YES];
+    if (![[NSThread currentThread] isEqual:[NSThread mainThread]])
+	{
+		NSLog(@"starting out stream on main thread");
+        return [self performSelectorOnMainThread:@selector(start) withObject:nil waitUntilDone:NO];
     }
 
     NSLog(@"Start");
+	if (self.streamThread != nil)
+	{
+		[self stop];
+	}
     self.streamThread = [[NSThread alloc] initWithTarget:self selector:@selector(run) object:nil];
     [self.streamThread start];
 }
@@ -50,10 +56,14 @@
 {
     @autoreleasepool {
         [self.audioStream open];
-
-        self.isStreaming = YES;
+		
+		self.isStreaming = YES;
         NSLog(@"Loop");
 
+		NSLog(@"now is %@, distantFuture is :%@", [NSDate date], [NSDate distantFuture]);
+		[[NSRunLoop currentRunLoop] cancelPerformSelectorsWithTarget:self.streamThread];
+		BOOL runResult = [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:[NSDate distantFuture]];
+		NSLog(@"run result is: %i", runResult);
         while (self.isStreaming && [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:[NSDate distantFuture]]) ;
 
         NSLog(@"Done");
@@ -92,7 +102,7 @@
 
     if (err) {
 		NSLog(@"sendDataChunk error = %d", (int)err);
-		CFRelease(sampleBuffer);
+        CFRelease(sampleBuffer);
         return;
     }
 
@@ -108,6 +118,7 @@
 
 - (void)stop
 {
+	NSLog(@"stopping out stream");
     [self performSelector:@selector(stopThread) onThread:self.streamThread withObject:nil waitUntilDone:YES];
 }
 
@@ -115,6 +126,9 @@
 {
     self.isStreaming = NO;
     [self.audioStream close];
+	self.audioStream = nil;
+	[self.streamThread cancel];
+	self.streamThread = nil;
     NSLog(@"Stop");
 }
 

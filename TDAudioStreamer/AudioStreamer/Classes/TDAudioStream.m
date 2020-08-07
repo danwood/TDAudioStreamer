@@ -82,12 +82,14 @@
     [self.stream close];
     self.stream.delegate = nil;
     [self.stream removeFromRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
+	self.stream = nil;
 }
 
 - (void)dealloc
 {
     if (self.stream)
         [self close];
+	self.stream = nil;
 }
 
 @end

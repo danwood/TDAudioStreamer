@@ -56,9 +56,10 @@
 - (void)start
 {
     if (![[NSThread currentThread] isEqual:[NSThread mainThread]]) {
+		NSLog(@"starting new stream thread");
         return [self performSelectorOnMainThread:@selector(start) withObject:nil waitUntilDone:YES];
     }
-
+	NSLog(@"runnning new stream thread");
     self.audioStreamerThread = [[NSThread alloc] initWithTarget:self selector:@selector(run) object:nil];
     [self.audioStreamerThread start];
 }
@@ -158,7 +159,7 @@
 - (void)audioQueueDidFinishPlaying:(TDAudioQueue *)audioQueue
 {
     [self performSelectorOnMainThread:@selector(notifyMainThread:) withObject:TDAudioStreamDidFinishPlayingNotification waitUntilDone:NO];
-}
+}	
 
 - (void)audioQueueDidStartPlaying:(TDAudioQueue *)audioQueue
 {
@@ -190,6 +191,9 @@
 - (void)stopThread
 {
     self.isPlaying = NO;
+	self.audioStream = nil;
+	[self.audioStreamerThread cancel];
+	self.audioStreamerThread = nil;
     [self.audioQueue stop];
 }
 

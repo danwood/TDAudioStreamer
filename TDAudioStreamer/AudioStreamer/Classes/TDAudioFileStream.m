@@ -105,7 +105,7 @@ void TDAudioFileStreamPacketsListener(void *inClientData, UInt32 inNumberBytes, 
 - (void)parseData:(const void *)data length:(UInt32)length
 {
     OSStatus err;
-    
+
     //NSLog(@"parseData discont: %i length: %i",self.discontinuous, length);
     
     if (self.discontinuous) {
@@ -115,11 +115,51 @@ void TDAudioFileStreamPacketsListener(void *inClientData, UInt32 inNumberBytes, 
         err = AudioFileStreamParseBytes(self.audioFileStreamID, length, data, 0);
     }
 
-    if (err){
-        NSError *error = [NSError errorWithDomain:NSOSStatusErrorDomain code:err userInfo:nil];
-        NSLog(@"Error parsing audio stream: %@", error);
-        [self.delegate audioFileStream:self didReceiveError:err];
-    }
+    if (err)
+	{
+		switch (err) {
+			case kAudioFileStreamError_UnsupportedFileType:
+				NSLog(@"error unsupported file type: %d", (int)err);
+				break;
+			case kAudioFileStreamError_UnsupportedDataFormat:
+				NSLog(@"error unsupported data format: %d", (int)err);
+				break;
+			case kAudioFileStreamError_UnsupportedProperty:
+				NSLog(@"error unsupported property: %d", (int)err);
+				break;
+			case kAudioFileStreamError_BadPropertySize:
+				NSLog(@"error bad property size: %d", (int)err);
+				break;
+			case kAudioFileStreamError_NotOptimized:
+				NSLog(@"error not optimized: %d", (int)err);
+				break;
+			case kAudioFileStreamError_InvalidPacketOffset:
+				NSLog(@"error invliad packet offset: %d", (int)err);
+				break;
+			case kAudioFileStreamError_InvalidFile:
+				NSLog(@"error invalid file: %d", (int)err);
+				break;
+			case kAudioFileStreamError_ValueUnknown:
+				NSLog(@"error value unknown: %d", (int)err);
+				break;
+			case kAudioFileStreamError_DataUnavailable:
+				NSLog(@"error data unavailable: %d", (int)err);
+				break;
+			case kAudioFileStreamError_IllegalOperation:
+				NSLog(@"error illegal operation: %d", (int)err);
+				break;
+			case kAudioFileStreamError_UnspecifiedError:
+				NSLog(@"error unspecified error: %d", (int)err);
+				break;
+			case kAudioFileStreamError_DiscontinuityCantRecover:
+				NSLog(@"error discontinuity can't recover: %d", (int)err);
+				break;
+			default:
+				break;
+		}
+		NSLog(@"error parsing stream data: %d", (int)err);
+		[self.delegate audioFileStream:self didReceiveError:err];
+	}
 }
 
 - (void)dealloc
