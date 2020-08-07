@@ -139,6 +139,7 @@
 
 - (void)audioFileStream:(TDAudioFileStream *)audioFileStream didReceiveError:(OSStatus)error
 {
+	NSLog(@"didReceiveError: %d", (int)error);
     [[NSNotificationCenter defaultCenter] postNotificationName:TDAudioStreamDidFinishPlayingNotification object:nil];
 }
 

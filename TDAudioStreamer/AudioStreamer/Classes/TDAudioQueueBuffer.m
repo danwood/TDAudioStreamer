@@ -34,7 +34,10 @@ const NSUInteger kTDMaxPacketDescriptions = 512;
 
     OSStatus err = AudioQueueAllocateBuffer(audioQueue, self.size, &_audioQueueBuffer);
 
-    if (err) return nil;
+	if (err) {
+		NSLog(@"initWithAudioQueue init error = %d", (int)err);
+		return nil;
+	}
 
     return self;
 }

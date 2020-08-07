@@ -73,7 +73,11 @@
 
 - (TDAudioQueueBuffer *)nextFreeBuffer
 {
-    if (![self hasAvailableAudioQueueBuffer]) return nil;
+    if (![self hasAvailableAudioQueueBuffer])
+	{
+		NSLog(@"nextFreeBuffer !hasAvailableAudioQueueBuffer");
+		return nil;
+	}
     @synchronized(self) {
         return self.audioQueueBuffers[[[self.freeBuffers topObject] integerValue]];
     }

@@ -91,7 +91,8 @@
     OSStatus err = CMSampleBufferGetAudioBufferListWithRetainedBlockBuffer(sampleBuffer, NULL, &audioBufferList, sizeof(AudioBufferList), NULL, NULL, kCMSampleBufferFlag_AudioBufferList_Assure16ByteAlignment, &blockBuffer);
 
     if (err) {
-        CFRelease(sampleBuffer);
+		NSLog(@"sendDataChunk error = %d", (int)err);
+		CFRelease(sampleBuffer);
         return;
     }
 

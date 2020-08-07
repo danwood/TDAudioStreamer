@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		CE43886824DCCB4A00919233 /* focused.m4a in Resources */ = {isa = PBXBuildFile; fileRef = CE93070424DC7B220039D277 /* focused.m4a */; };
+		CE43886A24DCE77F00919233 /* Categories.m in Sources */ = {isa = PBXBuildFile; fileRef = CE43886924DCE77F00919233 /* Categories.m */; };
+		CE43886C24DCE84F00919233 /* mtf.wav in Resources */ = {isa = PBXBuildFile; fileRef = CE43886B24DCE84F00919233 /* mtf.wav */; };
+		CE43886E24DCEA7D00919233 /* falling.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = CE43886D24DCEA7D00919233 /* falling.mp3 */; };
+		CE93070624DC7B4A0039D277 /* lorenzo.jpg in Resources */ = {isa = PBXBuildFile; fileRef = CE93070524DC7B4A0039D277 /* lorenzo.jpg */; };
 		EA64D324183A764D00842F02 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA64D323183A764D00842F02 /* Foundation.framework */; };
 		EA64D326183A764D00842F02 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA64D325183A764D00842F02 /* CoreGraphics.framework */; };
 		EA64D328183A764D00842F02 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EA64D327183A764D00842F02 /* UIKit.framework */; };
@@ -52,6 +57,11 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		CE43886924DCE77F00919233 /* Categories.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Categories.m; sourceTree = "<group>"; };
+		CE43886B24DCE84F00919233 /* mtf.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = mtf.wav; sourceTree = "<group>"; };
+		CE43886D24DCEA7D00919233 /* falling.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = falling.mp3; sourceTree = "<group>"; };
+		CE93070424DC7B220039D277 /* focused.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = focused.m4a; sourceTree = "<group>"; };
+		CE93070524DC7B4A0039D277 /* lorenzo.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = lorenzo.jpg; sourceTree = "<group>"; };
 		EA64D320183A764D00842F02 /* TDAudioStreamer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TDAudioStreamer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EA64D323183A764D00842F02 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		EA64D325183A764D00842F02 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -137,6 +147,7 @@
 		EA64D317183A764D00842F02 = {
 			isa = PBXGroup;
 			children = (
+				CE43886924DCE77F00919233 /* Categories.m */,
 				EA64D329183A764D00842F02 /* TDAudioStreamer */,
 				EA64D348183A764D00842F02 /* TDAudioStreamerTests */,
 				EA64D322183A764D00842F02 /* Frameworks */,
@@ -187,6 +198,10 @@
 		EA64D32A183A764D00842F02 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				CE93070524DC7B4A0039D277 /* lorenzo.jpg */,
+				CE43886B24DCE84F00919233 /* mtf.wav */,
+				CE43886D24DCEA7D00919233 /* falling.mp3 */,
+				CE93070424DC7B220039D277 /* focused.m4a */,
 				EA64D32B183A764D00842F02 /* TDAudioStreamer-Info.plist */,
 				EA64D32C183A764D00842F02 /* InfoPlist.strings */,
 				EA64D32F183A764D00842F02 /* main.m */,
@@ -329,6 +344,7 @@
 				ORGANIZATIONNAME = "Tony DiPasquale";
 				TargetAttributes = {
 					EA64D31F183A764D00842F02 = {
+						DevelopmentTeam = 3SP7MRA6P9;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
 								enabled = 1;
@@ -345,6 +361,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 				Base,
 			);
@@ -364,9 +381,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CE43886C24DCE84F00919233 /* mtf.wav in Resources */,
 				EA64D33C183A764D00842F02 /* Images.xcassets in Resources */,
+				CE43886E24DCEA7D00919233 /* falling.mp3 in Resources */,
 				EA64D32E183A764D00842F02 /* InfoPlist.strings in Resources */,
+				CE43886824DCCB4A00919233 /* focused.m4a in Resources */,
 				EA64D337183A764D00842F02 /* Main.storyboard in Resources */,
+				CE93070624DC7B4A0039D277 /* lorenzo.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -398,6 +419,7 @@
 				EA64D382183A781300842F02 /* TDSession.m in Sources */,
 				EA64D376183A780600842F02 /* TDAudioOutputStreamer.m in Sources */,
 				EA64D384183A781300842F02 /* TDMultipeerGuestViewController.m in Sources */,
+				CE43886A24DCE77F00919233 /* Categories.m in Sources */,
 				EA64D392183A7ABF00842F02 /* TDAudioStreamer.m in Sources */,
 				EA64D36E183A780600842F02 /* TDAudioFileStream.m in Sources */,
 				EA64D374183A780600842F02 /* TDAudioStream.m in Sources */,
@@ -528,9 +550,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				DEVELOPMENT_TEAM = 3SP7MRA6P9;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "TDAudioStreamer/Supporting Files/TDAudioStreamer-Prefix.pch";
 				INFOPLIST_FILE = "$(SRCROOT)/TDAudioStreamer/Supporting Files/TDAudioStreamer-Info.plist";
+				PRODUCT_BUNDLE_IDENTIFIER = com.gigliwood.theTDAudioStreamer;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -541,9 +565,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				DEVELOPMENT_TEAM = 3SP7MRA6P9;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "TDAudioStreamer/Supporting Files/TDAudioStreamer-Prefix.pch";
 				INFOPLIST_FILE = "$(SRCROOT)/TDAudioStreamer/Supporting Files/TDAudioStreamer-Info.plist";
+				PRODUCT_BUNDLE_IDENTIFIER = com.gigliwood.theTDAudioStreamer;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};

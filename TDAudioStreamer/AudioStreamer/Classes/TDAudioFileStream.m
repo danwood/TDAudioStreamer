@@ -36,9 +36,12 @@ void TDAudioFileStreamPacketsListener(void *inClientData, UInt32 inNumberBytes, 
     self = [super init];
     if (!self) return nil;
 
-    OSStatus err = AudioFileStreamOpen((__bridge void *)self, TDAudioFileStreamPropertyListener, TDAudioFileStreamPacketsListener, 0, &_audioFileStreamID);
+    OSStatus err = AudioFileStreamOpen((__bridge void *)self, TDAudioFileStreamPropertyListener, TDAudioFileStreamPacketsListener, 0 /* hint */, &_audioFileStreamID);
 
-    if (err) return nil;
+	if (err) {
+		NSLog(@"TDAudioFileStream init error = %d", (int)err);
+		return nil;
+	}
 
     self.discontinuous = YES;
 

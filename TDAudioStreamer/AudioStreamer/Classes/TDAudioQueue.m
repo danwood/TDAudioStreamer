@@ -38,8 +38,11 @@ void TDAudioQueueOutputCallback(void *inUserData, AudioQueueRef inAudioQueue, Au
 
     OSStatus err = AudioQueueNewOutput(&basicDescription, TDAudioQueueOutputCallback, (__bridge void *)self, NULL, NULL, 0, &_audioQueue);
 
-    if (err) return nil;
-
+    if (err)
+	{
+		NSLog(@"initWithBasicDescription init error = %d", (int)err);
+		return nil;
+	}
     self.bufferManager = [[TDAudioQueueBufferManager alloc] initWithAudioQueue:self.audioQueue size:bufferSize count:bufferCount];
 
     AudioQueueSetProperty(self.audioQueue, kAudioQueueProperty_MagicCookie, magicCookieData, magicCookieSize);
