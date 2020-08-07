@@ -20,3 +20,7 @@ DerivedData
 #CocoaPods
 Pods
 /TDAudioStreamer.xcodeproj/project.xcworkspace/xcshareddata
+/TDAudioStreamer/Supporting Files/mtf.wav
+/TDAudioStreamer/Supporting Files/lorenzo.jpg
+/TDAudioStreamer/Supporting Files/focused.m4a
+/TDAudioStreamer/Supporting Files/falling.mp3
