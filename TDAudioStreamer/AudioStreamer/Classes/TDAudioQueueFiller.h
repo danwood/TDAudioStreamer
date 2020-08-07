@@ -14,6 +14,6 @@
 @interface TDAudioQueueFiller : NSObject
 
 + (void)fillAudioQueue:(TDAudioQueue *)audioQueue withData:(const void *)data length:(UInt32)length offset:(UInt32)offset;
-+ (void)fillAudioQueue:(TDAudioQueue *)audioQueue withData:(const void *)data length:(UInt32)length packetDescription:(AudioStreamPacketDescription)packetDescription;
++ (void)fillAudioQueue:(TDAudioQueue *)audioQueue withData:(const void *)data packetDescription:(AudioStreamPacketDescription)packetDescription;
 
 @end

@@ -64,7 +64,7 @@ const NSUInteger kTDMaxPacketDescriptions = 512;
     return 0;
 }
 
-- (BOOL)fillWithData:(const void *)data length:(UInt32)length packetDescription:(AudioStreamPacketDescription)packetDescription
+- (BOOL)fillWithData:(const void *)data packetDescription:(AudioStreamPacketDescription)packetDescription
 {
     if (self.fillPosition + packetDescription.mDataByteSize > self.size || self.numberOfPacketDescriptions == kTDMaxPacketDescriptions) return NO;
 

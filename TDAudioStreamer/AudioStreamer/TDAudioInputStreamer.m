@@ -148,9 +148,9 @@
     [TDAudioQueueFiller fillAudioQueue:self.audioQueue withData:data length:length offset:0];
 }
 
-- (void)audioFileStream:(TDAudioFileStream *)audioFileStream didReceiveData:(const void *)data length:(UInt32)length packetDescription:(AudioStreamPacketDescription)packetDescription
+- (void)audioFileStream:(TDAudioFileStream *)audioFileStream didReceiveData:(const void *)data packetDescription:(AudioStreamPacketDescription)packetDescription
 {
-    [TDAudioQueueFiller fillAudioQueue:self.audioQueue withData:data length:length packetDescription:packetDescription];
+    [TDAudioQueueFiller fillAudioQueue:self.audioQueue withData:data packetDescription:packetDescription];
 }
 
 #pragma mark - TDAudioQueueDelegate

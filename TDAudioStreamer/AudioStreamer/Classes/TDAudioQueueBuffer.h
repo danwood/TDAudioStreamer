@@ -14,7 +14,7 @@
 - (instancetype)initWithAudioQueue:(AudioQueueRef)audioQueue size:(UInt32)size;
 
 - (NSInteger)fillWithData:(const void *)data length:(UInt32)length offset:(UInt32)offset;
-- (BOOL)fillWithData:(const void *)data length:(UInt32)length packetDescription:(AudioStreamPacketDescription)packetDescription;
+- (BOOL)fillWithData:(const void *)data packetDescription:(AudioStreamPacketDescription)packetDescription;
 
 - (void)enqueueWithAudioQueue:(AudioQueueRef)auidoQueue;
 - (void)reset;

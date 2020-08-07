@@ -26,15 +26,15 @@
         [self fillAudioQueue:audioQueue withData:data length:length offset:(length - (UInt32)leftovers)];
 }
 
-+ (void)fillAudioQueue:(TDAudioQueue *)audioQueue withData:(const void *)data length:(UInt32)length packetDescription:(AudioStreamPacketDescription)packetDescription
++ (void)fillAudioQueue:(TDAudioQueue *)audioQueue withData:(const void *)data packetDescription:(AudioStreamPacketDescription)packetDescription
 {
     TDAudioQueueBuffer *audioQueueBuffer = [audioQueue nextFreeBuffer];
 
-    BOOL hasMoreRoomForPackets = [audioQueueBuffer fillWithData:data length:length packetDescription:packetDescription];
+    BOOL hasMoreRoomForPackets = [audioQueueBuffer fillWithData:data packetDescription:packetDescription];
 
     if (!hasMoreRoomForPackets) {
         [audioQueue enqueue];
-        [self fillAudioQueue:audioQueue withData:data length:length packetDescription:packetDescription];
+        [self fillAudioQueue:audioQueue withData:data packetDescription:packetDescription];
     }
 }
 
