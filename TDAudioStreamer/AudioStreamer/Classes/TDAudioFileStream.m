@@ -25,6 +25,9 @@ void TDAudioFileStreamPropertyListener(void *inClientData, AudioFileStreamID inA
 
 void TDAudioFileStreamPacketsListener(void *inClientData, UInt32 inNumberBytes, UInt32 inNumberPackets, const void *inInputData, AudioStreamPacketDescription *inPacketDescriptions)
 {
+    
+    NSLog(@"received packets %i", (unsigned int)inNumberPackets);
+    
     TDAudioFileStream *audioFileStream = (__bridge TDAudioFileStream *)inClientData;
     [audioFileStream didReceivePackets:inInputData packetDescriptions:inPacketDescriptions numberOfPackets:inNumberPackets numberOfBytes:inNumberBytes];
 }
@@ -80,9 +83,19 @@ void TDAudioFileStreamPacketsListener(void *inClientData, UInt32 inNumberBytes, 
 
 - (void)didReceivePackets:(const void *)packets packetDescriptions:(AudioStreamPacketDescription *)packetDescriptions numberOfPackets:(UInt32)numberOfPackets numberOfBytes:(UInt32)numberOfBytes
 {
+    
+    NSLog(@"received packets %i", (unsigned int)numberOfPackets);
+    
     if (packetDescriptions) {
         for (NSUInteger i = 0; i < numberOfPackets; i++) {
             [self.delegate audioFileStream:self didReceiveData:(const void *)(packets) packetDescription:(AudioStreamPacketDescription)packetDescriptions[i]];
+            /*
+            SInt64 packetOffset = packetDescriptions[i].mStartOffset;
+            UInt32 packetSize = packetDescriptions[i].mDataByteSize;
+
+            
+            [self.delegate audioFileStream:self didReceiveData:(const void *)(packets + packetOffset) length:packetSize packetDescription:(AudioStreamPacketDescription)packetDescriptions[i]];
+            */
         }
     } else {
         [self.delegate audioFileStream:self didReceiveData:(const void *)packets length:numberOfBytes];
@@ -92,7 +105,9 @@ void TDAudioFileStreamPacketsListener(void *inClientData, UInt32 inNumberBytes, 
 - (void)parseData:(const void *)data length:(UInt32)length
 {
     OSStatus err;
-
+    
+    //NSLog(@"parseData discont: %i length: %i",self.discontinuous, length);
+    
     if (self.discontinuous) {
         err = AudioFileStreamParseBytes(self.audioFileStreamID, length, data, kAudioFileStreamParseFlag_Discontinuity);
         self.discontinuous = NO;
@@ -100,7 +115,11 @@ void TDAudioFileStreamPacketsListener(void *inClientData, UInt32 inNumberBytes, 
         err = AudioFileStreamParseBytes(self.audioFileStreamID, length, data, 0);
     }
 
-    if (err) [self.delegate audioFileStream:self didReceiveError:err];
+    if (err){
+        NSError *error = [NSError errorWithDomain:NSOSStatusErrorDomain code:err userInfo:nil];
+        NSLog(@"Error parsing audio stream: %@", error);
+        [self.delegate audioFileStream:self didReceiveError:err];
+    }
 }
 
 - (void)dealloc
