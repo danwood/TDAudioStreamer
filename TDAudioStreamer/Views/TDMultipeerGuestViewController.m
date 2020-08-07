@@ -29,7 +29,7 @@
 {
     [super viewDidLoad];
 
-    self.session = [[TDSession alloc] initWithPeerDisplayName:@"Guest"];
+    self.session = [[TDSession alloc] initWithPeerDisplayName:[UIDevice currentDevice].name];
     [self.session startAdvertisingForServiceType:@"dance-party" discoveryInfo:nil];
     self.session.delegate = self;
     
@@ -38,6 +38,14 @@
 - (void)viewDidDisappear:(BOOL)animated
 {
     [super viewDidDisappear:animated];
+    
+    //stops audio if currently playing
+    if (self.inputStream) {
+        NSLog(@"stop stream");
+        [self.inputStream pause];
+        [self.inputStream stop];
+    }
+    
     [self.session stopAdvertising];
 }
 

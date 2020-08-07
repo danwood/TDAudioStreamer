@@ -5,12 +5,18 @@
 //  Created by Tony DiPasquale on 11/14/13.
 //  Copyright (c) 2013 Tony DiPasquale. The MIT License (MIT).
 //
-
+@import MediaPlayer;
 #import <Foundation/Foundation.h>
 
-@class AVURLAsset;
+@protocol TDAudioOutputStreamerDelegate <NSObject>
+
+-(void)localPlayback;
+
+@end
 
 @interface TDAudioOutputStreamer : NSObject
+
+@property (nonatomic, assign) id <TDAudioOutputStreamerDelegate> localPlaybackDelegate;
 
 - (instancetype)initWithOutputStream:(NSOutputStream *)stream;
 

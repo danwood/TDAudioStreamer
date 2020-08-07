@@ -23,7 +23,10 @@
 @property (strong, nonatomic) MPMediaItem *song;
 @property (strong, nonatomic) TDAudioOutputStreamer *outputStreamer;
 @property (strong, nonatomic) TDSession *session;
+
+//properties for local playback
 @property (strong, nonatomic) AVPlayer *player;
+@property (strong, nonatomic) AVPlayerItem *localSong;
 
 @end
 
@@ -62,15 +65,29 @@
     self.songTitle.text = info[@"title"];
     self.songArtist.text = info[@"artist"];
 
+    //uses pre-alloced objects to reduce latency for playback
+    NSURL *audioUrl = [self.song valueForProperty:MPMediaItemPropertyAssetURL];
+    self.localSong = [[AVPlayerItem alloc] initWithURL:audioUrl];
+    
+
     [self.session sendData:[NSKeyedArchiver archivedDataWithRootObject:[info copy]]];
 
     NSArray *peers = [self.session connectedPeers];
-
+    
     if (peers.count) {
+        
         self.outputStreamer = [[TDAudioOutputStreamer alloc] initWithOutputStream:[self.session outputStreamForPeer:peers[0]]];
+        self.outputStreamer.localPlaybackDelegate = self;
         [self.outputStreamer streamAudioFromURL:[self.song valueForProperty:MPMediaItemPropertyAssetURL]];
         [self.outputStreamer start];
     }
+}
+-(void) localPlayback {
+    //starts local playback with delegate from audio output streamer
+    NSLog(@"Local playback delegate");
+    self.player = [[AVPlayer alloc] initWithPlayerItem:self.localSong];
+    [self.player play];
+    
 }
 
 - (void)mediaPickerDidCancel:(MPMediaPickerController *)mediaPicker
@@ -79,6 +96,9 @@
 }
 
 #pragma mark - View Actions
+- (IBAction)inviteUsers:(id)sender {
+    [self presentViewController:[self.session browserViewControllerForSeriviceType:@"dance-party"] animated:YES completion:nil];
+}
 
 - (IBAction)invite:(id)sender
 {

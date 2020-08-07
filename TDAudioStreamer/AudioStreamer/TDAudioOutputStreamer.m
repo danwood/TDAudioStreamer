@@ -5,23 +5,29 @@
 //  Created by Tony DiPasquale on 11/14/13.
 //  Copyright (c) 2013 Tony DiPasquale. The MIT License (MIT).
 //
+@import MediaPlayer;
 
 #import <AVFoundation/AVFoundation.h>
 #import "TDAudioOutputStreamer.h"
 #import "TDAudioStream.h"
 
-@interface TDAudioOutputStreamer () <TDAudioStreamDelegate>
+@interface TDAudioOutputStreamer () <TDAudioStreamDelegate, MPMediaPickerControllerDelegate,TDAudioOutputStreamerDelegate>
 
 @property (strong, nonatomic) TDAudioStream *audioStream;
 @property (strong, nonatomic) AVAssetReader *assetReader;
 @property (strong, nonatomic) AVAssetReaderTrackOutput *assetOutput;
 @property (strong, nonatomic) NSThread *streamThread;
 
+//properties for playing local song
+@property (assign, atomic) BOOL isPlayingLocal;
+
+
 @property (assign, atomic) BOOL isStreaming;
 
 @end
 
 @implementation TDAudioOutputStreamer
+@synthesize localPlaybackDelegate;
 
 - (instancetype) initWithOutputStream:(NSOutputStream *)stream
 {
@@ -31,7 +37,7 @@
     self.audioStream = [[TDAudioStream alloc] initWithOutputStream:stream];
     self.audioStream.delegate = self;
     NSLog(@"Init");
-
+    
     return self;
 }
 
@@ -56,9 +62,9 @@
 {
     @autoreleasepool {
         [self.audioStream open];
-		
-		self.isStreaming = YES;
-        NSLog(@"Loop");
+
+        self.isStreaming = YES;
+        NSLog(@"Loop!");
 
 		NSLog(@"now is %@, distantFuture is :%@", [NSDate date], [NSDate distantFuture]);
 		[[NSRunLoop currentRunLoop] cancelPerformSelectorsWithTarget:self.streamThread];
@@ -74,7 +80,7 @@
 {
     AVURLAsset *asset = [AVURLAsset URLAssetWithURL:url options:nil];
     NSError *assetError;
-
+    
     self.assetReader = [AVAssetReader assetReaderWithAsset:asset error:&assetError];
     self.assetOutput = [AVAssetReaderTrackOutput assetReaderTrackOutputWithTrack:asset.tracks[0] outputSettings:nil];
     if (![self.assetReader canAddOutput:self.assetOutput]) return;
@@ -110,10 +116,21 @@
         AudioBuffer audioBuffer = audioBufferList.mBuffers[i];
         [self.audioStream writeData:audioBuffer.mData maxLength:audioBuffer.mDataByteSize];
         NSLog(@"buffer size: %u", (unsigned int)audioBuffer.mDataByteSize);
+        NSLog(@"play local");
+        if (self.isPlayingLocal != true) {
+            //calls method for local playback, uses the if statement with boolean to only call the delegate method once
+            [self play];
+            self.isPlayingLocal = true;
+        }
     }
 
     CFRelease(blockBuffer);
     CFRelease(sampleBuffer);
+}
+- (void)play {
+    //play local playback
+    NSLog(@"succeed playing local");
+    [[self localPlaybackDelegate] localPlayback];
 }
 
 - (void)stop
